@@ -26,7 +26,7 @@ jobs:
 
     - name: Run unit tests
       run: |
-        pytest tests/
+        pytest test/
         
     - name: Run object detection on video
       run: |
