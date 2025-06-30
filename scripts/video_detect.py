@@ -3,7 +3,7 @@ from ultralytics import YOLO
 import os
 
 def run_video_detection(video_path, output_path):
-    model = YOLO("yolov8n.pt")
+    model = YOLO("models/yolo11n.pt")
     cap = cv2.VideoCapture(video_path)
 
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")

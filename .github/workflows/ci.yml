@@ -22,7 +22,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+        pip install pytest
 
+    - name: Run unit tests
+      run: |
+        pytest tests/
+        
     - name: Run object detection on video
       run: |
         mkdir -p outputs

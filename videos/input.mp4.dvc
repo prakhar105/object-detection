@@ -1,0 +1,5 @@
+outs:
+- md5: a20fb667d9cbf77300d81adcf3ed9ccc
+  size: 696129
+  hash: md5
+  path: input.mp4
