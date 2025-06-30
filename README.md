@@ -167,7 +167,7 @@ MIT License – feel free to use, modify, and share.
 
 ## 💡 Acknowledgments
 
-- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
+- [Ultralytics YOLOv11](https://github.com/ultralytics/ultralytics)
 - [OpenCV](https://opencv.org/)
 - [DVC](https://dvc.org/)
 - [pytest](https://docs.pytest.org/)
