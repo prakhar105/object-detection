@@ -18,7 +18,7 @@ This project demonstrates object detection using [Ultralytics](https://docs.ultr
 ## 🗂️ Project Structure
 
 ```
-object-detection/
+object-detection-ci-cd-tdd-dvc/
 │
 ├── videos/
 │   └── input.mp4                # Sample input video (DVC tracked)
