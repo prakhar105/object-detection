@@ -1,6 +1,6 @@
 # 🎥 YOLOv8 Video Object Detection
 
-This project demonstrates object detection using [Ultralytics YOLOv8](https://docs.ultralytics.com/) on video files. It also includes a GitHub Actions CI pipeline that automatically tests the object detection script whenever you push changes to the repository.
+This project demonstrates object detection using [Ultralytics YOLOv8](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
 
 ---
 
@@ -8,7 +8,9 @@ This project demonstrates object detection using [Ultralytics YOLOv8](https://do
 
 - Detect objects frame-by-frame in video files using YOLOv8
 - Save the output as an annotated video
+- Unit tests using `pytest` (TDD-friendly)
 - CI pipeline using GitHub Actions for automatic testing
+- DVC support for tracking videos and models
 - Lightweight and easy to extend with custom models
 
 ---
@@ -19,7 +21,7 @@ This project demonstrates object detection using [Ultralytics YOLOv8](https://do
 yolo-video-detection/
 │
 ├── videos/
-│   └── input.mp4                # Sample input video
+│   └── input.mp4                # Sample input video (DVC tracked)
 │
 ├── outputs/
 │   └── annotated_output.mp4     # Output video after detection
@@ -27,8 +29,13 @@ yolo-video-detection/
 ├── scripts/
 │   └── video_detect.py          # YOLOv8 video detection script
 │
+├── tests/
+│   └── test_detect.py           # Unit tests for model loading and detection
+│
 ├── requirements.txt             # Python dependencies
 ├── README.md                    # This file
+├── dvc.yaml                     # Optional DVC pipeline
+├── .dvc/                        # DVC metadata
 └── .github/
     └── workflows/
         └── ci.yml               # GitHub Actions CI workflow
@@ -72,6 +79,20 @@ python scripts/video_detect.py
 
 ---
 
+## 🧪 Run Tests
+
+Make sure the `tests/` folder has test files named like `test_*.py`. Then run:
+
+```bash
+pytest tests/
+```
+
+Tests include:
+- Model loading
+- Single frame inference sanity check
+
+---
+
 ## ✅ CI/CD with GitHub Actions
 
 Every push or pull request to the `main` branch triggers:
@@ -79,9 +100,23 @@ Every push or pull request to the `main` branch triggers:
 - Code checkout
 - Python environment setup
 - Dependency installation
-- Dry run of the detection script
+- Unit tests execution with `pytest`
 
 📄 See `.github/workflows/ci.yml` for details.
+
+---
+
+## 📦 Data & Model Versioning with DVC
+
+DVC can be used to version control large files like videos and models.
+
+```bash
+dvc add videos/input.mp4
+dvc add yolov8n.pt
+dvc push
+```
+
+Add a remote storage (Google Drive, S3, etc.) to manage large files.
 
 ---
 
@@ -102,6 +137,8 @@ model = YOLO("path/to/your/best.pt")
 - Python 3.8+
 - `ultralytics`
 - `opencv-python`
+- `pytest` (for testing)
+- `dvc` (optional, for versioning)
 
 ---
 
@@ -113,6 +150,9 @@ Annotated videos will be saved to the `outputs/` directory.
 
 ## 🛠️ TODOs
 
+- [x] Add unit tests (TDD)
+- [x] Setup GitHub Actions CI
+- [x] Integrate DVC
 - [ ] Add support for real-time webcam detection
 - [ ] Integrate with a web UI (e.g., Streamlit or Flask)
 - [ ] Auto-download sample videos if none exist
@@ -129,3 +169,5 @@ MIT License – feel free to use, modify, and share.
 
 - [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
 - [OpenCV](https://opencv.org/)
+- [DVC](https://dvc.org/)
+- [pytest](https://docs.pytest.org/)
