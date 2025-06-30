@@ -1,6 +1,6 @@
-# 🎥 YOLOv8 Video Object Detection
+# 🎥 YOLO Video Object Detection
 
-This project demonstrates object detection using [Ultralytics YOLOv8](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
+This project demonstrates object detection using [Ultralytics](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
 
 ---
 
@@ -18,7 +18,7 @@ This project demonstrates object detection using [Ultralytics YOLOv8](https://do
 ## 🗂️ Project Structure
 
 ```
-yolo-video-detection/
+object-detection/
 │
 ├── videos/
 │   └── input.mp4                # Sample input video (DVC tracked)
@@ -45,7 +45,7 @@ yolo-video-detection/
 
 ## 🧠 How It Works
 
-- Loads a pretrained YOLOv8n model.
+- Loads a pretrained YOLOv11n model.
 - Reads video frames from `videos/input.mp4`.
 - Applies detection on each frame.
 - Annotates and saves the video to `outputs/annotated_output.mp4`.
@@ -57,8 +57,8 @@ yolo-video-detection/
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/yolo-video-detection.git
-cd yolo-video-detection
+git clone https://github.com/your-username/object-detection-ci-cd-tdd-dvc.git
+cd object-detection-ci-cd-tdd-dvc
 ```
 
 ### 2. Install Dependencies
