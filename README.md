@@ -115,6 +115,7 @@ dvc add videos/input.mp4
 dvc add yolov8n.pt
 dvc push
 ```
+https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/DVC.png
 
 Add a remote storage (Google Drive, S3, etc.) to manage large files.
 
