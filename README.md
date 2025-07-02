@@ -143,6 +143,90 @@ model = YOLO("path/to/your/best.pt")
 
 ---
 
+# 🚀 Step-by-Step: SSH Key Setup for Jetson with Ansible (WSL-Compatible)
+
+This guide explains how to set up SSH keys to connect from your **Ansible control machine (WSL)** to a **Jetson device** over SSH, and how to enable remote SSH access *into* WSL as well.  
+
+---
+
+## 🔐 Part A: Setup SSH Access from WSL (Control Node) to Jetson
+
+### 1. Generate SSH Key (on WSL)
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+> 💡 Save it in the default path `/home/your_user/.ssh/id_rsa` (not inside `/mnt/c/...` to avoid permission errors).
+
+### 2. Set Proper Permissions
+
+```bash
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+```
+
+### 3. Copy Public Key to Jetson
+
+Replace the IP and user with your Jetson device's settings:
+
+```bash
+ssh-copy-id -i ~/.ssh/id_rsa.pub agxql0015@<tailscale device IP>
+```
+
+Test SSH login (should not ask for password):
+
+```bash
+ssh -i ~/.ssh/id_rsa agxql0015@<tailscale device IP>
+```
+
+---
+
+## 📦 Part B: Configure Ansible Inventory
+
+Example `inventory/hosts.ini`:
+
+```ini
+[jetson]
+agxql0015 ansible_host=<tailscale device IP> ansible_user=agxql0015 ansible_ssh_private_key_file=/home/your_user/.ssh/id_rsa
+```
+
+---
+
+## ▶️ Part C: Run Ansible Playbook
+
+Use this command to run your Ansible script:
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/install.yml --ask-become-pass
+```
+
+---
+
+## 🛠 Notes
+
+- For cross-network access, use [Tailscale](https://tailscale.com).
+- Ensure Jetson's SSH server is running: `sudo systemctl status ssh`
+- You can set up hostnames using `/etc/hosts` or `.ssh/config`.
+
+---
+
+## 📁 Directory Structure Example
+
+```
+jetson_setup/
+├── .ssh/
+│   └── id_rsa, id_rsa.pub
+├── inventory/
+│   └── hosts.ini
+└── playbooks/
+    └── install.yml
+```
+
+
+
+---
+
 ## 📸 Output Preview
 
 Annotated videos will be saved to the `outputs/` directory.

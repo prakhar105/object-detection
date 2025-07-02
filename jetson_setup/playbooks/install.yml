@@ -1,0 +1,34 @@
+- name: Run full maintenance and restart script
+  hosts: jetson
+  become: yes # Use sudo -> yes/no
+  gather_facts: no
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: dist
+
+    # - name: Install dependencies
+    #   apt:
+    #     name: [git, python3-pip, python3-venv, libopencv-dev]
+    #     state: present
+
+    # - name: Upgrade pip
+    #   pip:
+    #     name: pip
+    #     executable: pip3
+    #     state: latest
+
+    # - name: Install Python packages
+    #   pip:
+    #     requirements: /home/ubuntu/yolo/requirements.txt
+    #     executable: pip3
+
+    # - name: Clone YOLO project
+    #   git:
+    #     repo: 'https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc'
+    #     dest: /home/agxql0015/yolo
+    #     version: main
