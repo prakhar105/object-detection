@@ -4,3 +4,4 @@ gradio
 paho-mqtt 
 opencv-python
 numpy
+torch
