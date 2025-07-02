@@ -10,3 +10,4 @@ typing_extensions
 pillow
 tqdm
 PyYAML
+requests
