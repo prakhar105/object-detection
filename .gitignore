@@ -1,0 +1,5 @@
+/.ssh
+*.pt
+*.ini
+*.pub
+*.file
