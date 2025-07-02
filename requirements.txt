@@ -6,3 +6,4 @@ opencv-python
 numpy
 torch
 typing_extensions
+pillow
