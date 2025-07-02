@@ -5,3 +5,4 @@ paho-mqtt
 opencv-python
 numpy
 torch
+typing_extensions
