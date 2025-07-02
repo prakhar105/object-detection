@@ -6,4 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "numpy>=2.3.1",
+    "opencv-python>=4.11.0.86",
+    "paho-mqtt>=2.1.0",
 ]
