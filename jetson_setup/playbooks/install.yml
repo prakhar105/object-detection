@@ -64,10 +64,6 @@
       environment:
         UV_VENV_PATH: /home/agxql0015/yolo/.venv
 
-    - name: Ensure typing_extensions is installed
-      pip:
-        name: typing_extensions
-        executable: "/home/agxql0015/yolo/.venv/bin/pip"
     - name: Run YOLO script (e.g., main.py)
       command: /home/agxql0015/yolo/.venv/bin/python scripts/realtime_video_detect_mqtt.py
       args:
