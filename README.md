@@ -190,6 +190,8 @@ Example `inventory/hosts.ini`:
 [jetson]
 agxql0015 ansible_host=<tailscale device IP> ansible_user=agxql0015 ansible_ssh_private_key_file=/home/your_user/.ssh/id_rsa
 ```
+![Tailscale](https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/tailscale.png)
+![Ansible](https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/ansible.png)
 
 ---
 
