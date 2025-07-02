@@ -13,3 +13,4 @@ PyYAML
 requests
 urllib3
 idna
+certifi
