@@ -9,4 +9,4 @@ torchvision
 typing_extensions
 pillow
 tqdm
-yaml
+PyYAML
