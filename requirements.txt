@@ -12,3 +12,4 @@ tqdm
 PyYAML
 requests
 urllib3
+idna
