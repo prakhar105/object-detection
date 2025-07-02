@@ -64,13 +64,6 @@
       environment:
         UV_VENV_PATH: /home/agxql0015/yolo/.venv
 
-    - name: Sync dependencies with uv
-      command: uv sync
-      args:
-        chdir: /home/agxql0015/yolo
-      environment:
-        UV_VENV_PATH: /home/agxql0015/yolo/.venv
-
     - name: Run YOLO script (e.g., main.py)
       command: /home/agxql0015/yolo/.venv/bin/python scripts/realtime_video_detect_mqtt.py
       args:
