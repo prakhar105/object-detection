@@ -29,7 +29,7 @@ def run_realtime_detection():
         annotated_frame = results[0].plot()
 
         # Display locally
-        cv2.imshow("YOLO Real-Time Detection", annotated_frame)
+        #cv2.imshow("YOLO Real-Time Detection", annotated_frame)
 
         # Encode and publish frame over MQTT
         _, buffer = cv2.imencode('.jpg', annotated_frame)
