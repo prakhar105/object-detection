@@ -262,12 +262,26 @@ Annotated videos will be saved to the `outputs/` directory.
 - [x] Add unit tests (TDD)
 - [x] Setup GitHub Actions CI
 - [x] Integrate DVC
-- [ ] Add support for real-time webcam detection
+- [x] Add support for real-time webcam detection
 - [ ] Integrate with a web UI (e.g., Streamlit or Flask)
 - [ ] Auto-download sample videos if none exist
 
 ---
 
+## 📊 Future Enhancements
+##### 📈 Add Grafana or Streamlit Dashboard
+- Visualize detection metrics (e.g., FPS, object counts, timestamps) in real-time for monitoring and diagnostics.
+
+##### ☁️ Integrate Cloud Storage (S3/GCS)
+- Automatically upload detection outputs (frames, logs, metadata) to cloud for archival or analysis.
+
+##### 🧠 LLM Integration for Smart Event Handling
+- Use a lightweight LLM (e.g., LLaMA, Mistral) to interpret detection context and trigger intelligent decisions — e.g., “Send alert only if person + fire detected.”
+
+##### 📲 Add Telegram or Slack Alert Bot
+- Push critical detections (like intruder, fire, vehicle) to messaging platforms with snapshot and location info.
+
+---
 ## 🤝 License
 
 MIT License – feel free to use, modify, and share.
