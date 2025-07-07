@@ -3,6 +3,21 @@
 This project demonstrates object detection using [Ultralytics](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
 
 ---
+## 🔄 Architecture
+```
++------------------------+       +------------------------+
+|  Jetson Edge Device    |       |   Root Control Node    |
+|  (Ansible Managed)     |       |                        |
+|                        |       |                        |
+|  - YOLOv8 Inference    |       |  - Receives MQTT data  |
+|  - MQTT Publisher      +------->  - Visualizes results  |
+|  - Auto-start via svc  |       |                        |
++------------------------+       +------------------------+
+        ^                                ^
+        |                                |
+     [Tailscale VPN: Secure Mesh Networking]
+```
+---
 
 ## 🚀 Features
 
@@ -171,13 +186,13 @@ chmod 644 ~/.ssh/id_rsa.pub
 Replace the IP and user with your Jetson device's settings:
 
 ```bash
-ssh-copy-id -i ~/.ssh/id_rsa.pub agxql0015@<tailscale device IP>
+ssh-copy-id -i ~/.ssh/id_rsa.pub host_device_name@<host_device_tailscale device IP>
 ```
 
 Test SSH login (should not ask for password):
 
 ```bash
-ssh -i ~/.ssh/id_rsa agxql0015@<tailscale device IP>
+ssh -i ~/.ssh/id_rsa host_device_name@<tailscale device IP>
 ```
 
 ---
@@ -188,7 +203,7 @@ Example `inventory/hosts.ini`:
 
 ```ini
 [jetson]
-agxql0015 ansible_host=<tailscale device IP> ansible_user=agxql0015 ansible_ssh_private_key_file=/home/your_user/.ssh/id_rsa
+host_device_name ansible_host=<tailscale device IP> ansible_user=host_device_name ansible_ssh_private_key_file=/home/your_user/.ssh/id_rsa
 ```
 ![Tailscale](https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/tailscale.png)
 ![Ansible](https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/ansible.png)
@@ -202,9 +217,16 @@ Use this command to run your Ansible script:
 ```bash
 ansible-playbook -i inventory/hosts.ini playbooks/install.yml --ask-become-pass
 ```
+This Ansible script will configure the device, download updated git repository, create uv venv, install requirements.txt, will execute the object detection and publish detection data Tailscale host device IP using MQTT protocol.
 
 ---
 
+## ▶️ Part D: Execute MQTT Subscriber on Root Device
+
+```
+uv run .\scripts\mqtt_subscriber.py --ip <host_device_tailscale_IP>
+```
+---
 ## 🛠 Notes
 
 - For cross-network access, use [Tailscale](https://tailscale.com).

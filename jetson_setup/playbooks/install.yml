@@ -65,7 +65,7 @@
         UV_VENV_PATH: /home/agxql0015/yolo/.venv
 
     - name: Run YOLO script (e.g., main.py)
-      command: /home/agxql0015/yolo/.venv/bin/python scripts/realtime_video_detect_mqtt.py
+      command: /home/agxql0015/yolo/.venv/bin/python scripts/realtime_video_detect_mqtt.py --ip <host_device_ip>
       args:
         chdir: /home/agxql0015/yolo
 
