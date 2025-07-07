@@ -206,7 +206,7 @@ Example `inventory/hosts.ini`:
 host_device_name ansible_host=<tailscale device IP> ansible_user=host_device_name ansible_ssh_private_key_file=/home/your_user/.ssh/id_rsa
 ```
 ![Tailscale](https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/tailscale.png)
-![Ansible](https://github.com/prakhar105/object-detection-ci-cd-tdd-dvc/blob/main/data/ansible.png)
+![Ansible](https://github.com/prakhar105/object-detection/blob/main/data/ansible.png)
 
 ---
 
