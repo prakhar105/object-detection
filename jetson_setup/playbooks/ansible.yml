@@ -4,7 +4,23 @@
   become: yes
   gather_facts: no
 
+  vars:
+    do_reboot: false
+
   tasks:
+    - name: Reboot the machine (if user says yes)
+      reboot:
+        reboot_timeout: 600
+        test_command: whoami
+      when: do_reboot | bool
+    
+    
+    - name: Wait for system to come back online (only if rebooted)
+      wait_for_connection:
+        timeout: 300
+      when: do_reboot | bool  
+    
+    
     - name: Update apt cache
       apt:
         update_cache: yes
@@ -64,7 +80,7 @@
       environment:
         UV_VENV_PATH: /home/agxql0015/yolo/.venv
 
-    - name: Run YOLO script (e.g., main.py)
+    - name: Run YOLO script
       command: /home/agxql0015/yolo/.venv/bin/python scripts/scripts/realtime_video_detect_mqtt_prometheus_client.py --ip 100.114.226.49
       args:
         chdir: /home/agxql0015/yolo
