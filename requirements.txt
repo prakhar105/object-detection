@@ -18,3 +18,4 @@ sympy
 chardet
 charset_normalizer
 mpmath
+prometheus_client
