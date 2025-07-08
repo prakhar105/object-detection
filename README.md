@@ -1,9 +1,9 @@
-# 🎥 YOLO Video Object Detection
+# YOLO Video Object Detection
 
 This project demonstrates object detection using [Ultralytics](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
 
 ---
-## 🔄 Architecture
+## Architecture
 ```
 +------------------------+       +------------------------+
 |  Jetson Edge Device    |       |   Root Control Node    |
@@ -19,7 +19,7 @@ This project demonstrates object detection using [Ultralytics](https://docs.ultr
 ```
 ---
 
-## 🚀 Features
+## Features
 
 - Detect objects frame-by-frame in video files using YOLOv8
 - Save the output as an annotated video
@@ -30,7 +30,7 @@ This project demonstrates object detection using [Ultralytics](https://docs.ultr
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 object-detection-ci-cd-tdd-dvc/
@@ -58,7 +58,7 @@ object-detection-ci-cd-tdd-dvc/
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 - Loads a pretrained YOLOv11n model.
 - Reads video frames from `videos/input.mp4`.
@@ -67,7 +67,7 @@ object-detection-ci-cd-tdd-dvc/
 
 ---
 
-## 🧪 Run Locally
+## Run Locally
 
 ### 1. Clone the Repo
 
@@ -94,7 +94,7 @@ python scripts/video_detect.py
 
 ---
 
-## 🧪 Run Tests
+## Run Tests
 
 Make sure the `tests/` folder has test files named like `test_*.py`. Then run:
 
@@ -108,7 +108,7 @@ Tests include:
 
 ---
 
-## ✅ CI/CD with GitHub Actions
+## CI/CD with GitHub Actions
 
 Every push or pull request to the `main` branch triggers:
 
@@ -121,7 +121,7 @@ Every push or pull request to the `main` branch triggers:
 
 ---
 
-## 📦 Data & Model Versioning with DVC
+## Data & Model Versioning with DVC
 
 DVC can be used to version control large files like videos and models.
 
@@ -136,7 +136,7 @@ Add a remote storage (Google Drive, S3, etc.) to manage large files.
 
 ---
 
-## 🧩 Customize
+## Customize
 
 Want to use your own model?
 
@@ -148,7 +148,7 @@ model = YOLO("path/to/your/best.pt")
 
 ---
 
-## 📦 Requirements
+## Requirements
 
 - Python 3.8+
 - `ultralytics`
@@ -158,13 +158,13 @@ model = YOLO("path/to/your/best.pt")
 
 ---
 
-# 🚀 Step-by-Step: SSH Key Setup for Jetson with Ansible (WSL-Compatible)
+# Step-by-Step: SSH Key Setup for Jetson with Ansible (WSL-Compatible)
 
 This guide explains how to set up SSH keys to connect from your **Ansible control machine (WSL)** to a **Jetson device** over SSH, and how to enable remote SSH access *into* WSL as well.  
 
 ---
 
-## 🔐 Part A: Setup SSH Access from WSL (Control Node) to Jetson
+## Part A: Setup SSH Access from WSL (Control Node) to Jetson
 
 ### 1. Generate SSH Key (on WSL)
 
@@ -172,7 +172,7 @@ This guide explains how to set up SSH keys to connect from your **Ansible contro
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
-> 💡 Save it in the default path `/home/your_user/.ssh/id_rsa` (not inside `/mnt/c/...` to avoid permission errors).
+> Save it in the default path `/home/your_user/.ssh/id_rsa` (not inside `/mnt/c/...` to avoid permission errors).
 
 ### 2. Set Proper Permissions
 
@@ -197,7 +197,7 @@ ssh -i ~/.ssh/id_rsa host_device_name@<tailscale device IP>
 
 ---
 
-## 📦 Part B: Configure Ansible Inventory
+## Part B: Configure Ansible Inventory
 
 Example `inventory/hosts.ini`:
 
@@ -210,7 +210,7 @@ host_device_name ansible_host=<tailscale device IP> ansible_user=host_device_nam
 
 ---
 
-## ▶️ Part C: Run Ansible Playbook
+## Part C: Run Ansible Playbook
 
 Use this command to run your Ansible script:
 
@@ -221,13 +221,13 @@ This Ansible script will configure the device, download updated git repository, 
 
 ---
 
-## ▶️ Part D: Execute MQTT Subscriber on Root Device
+## Part D: Execute MQTT Subscriber on Root Device
 
 ```
 uv run .\scripts\mqtt_subscriber.py --ip <host_device_tailscale_IP>
 ```
 ---
-## 🛠 Notes
+## Notes
 
 - For cross-network access, use [Tailscale](https://tailscale.com).
 - Ensure Jetson's SSH server is running: `sudo systemctl status ssh`
@@ -235,7 +235,7 @@ uv run .\scripts\mqtt_subscriber.py --ip <host_device_tailscale_IP>
 
 ---
 
-## 📁 Directory Structure Example
+## Directory Structure Example
 
 ```
 jetson_setup/
@@ -251,13 +251,13 @@ jetson_setup/
 
 ---
 
-## 📸 Output Preview
+## Output Preview
 
 Annotated videos will be saved to the `outputs/` directory.
 
 ---
 
-## 🛠️ TODOs
+## TODOs
 
 - [x] Add unit tests (TDD)
 - [x] Setup GitHub Actions CI
@@ -268,27 +268,27 @@ Annotated videos will be saved to the `outputs/` directory.
 
 ---
 
-## 📊 Future Enhancements
-##### 📈 Add Grafana or Streamlit Dashboard
+## Future Enhancements
+##### Add Grafana or Streamlit Dashboard
 - Visualize detection metrics (e.g., FPS, object counts, timestamps) in real-time for monitoring and diagnostics.
 
-##### ☁️ Integrate Cloud Storage (S3/GCS)
+##### Integrate Cloud Storage (S3/GCS)
 - Automatically upload detection outputs (frames, logs, metadata) to cloud for archival or analysis.
 
-##### 🧠 LLM Integration for Smart Event Handling
+##### LLM Integration for Smart Event Handling
 - Use a lightweight LLM (e.g., LLaMA, Mistral) to interpret detection context and trigger intelligent decisions — e.g., “Send alert only if person + fire detected.”
 
-##### 📲 Add Telegram or Slack Alert Bot
+##### Add Telegram or Slack Alert Bot
 - Push critical detections (like intruder, fire, vehicle) to messaging platforms with snapshot and location info.
 
 ---
-## 🤝 License
+## License
 
 MIT License – feel free to use, modify, and share.
 
 ---
 
-## 💡 Acknowledgments
+## Acknowledgments
 
 - [Ultralytics YOLOv11](https://github.com/ultralytics/ultralytics)
 - [OpenCV](https://opencv.org/)
