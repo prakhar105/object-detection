@@ -7,7 +7,6 @@ import paho.mqtt.client as mqtt
 from ultralytics import YOLO
 from yt_dlp import YoutubeDL
 from prometheus_client import start_http_server, Gauge
-
 import supervision as sv
 
 # ---------- Argument parser ------------------
@@ -33,7 +32,7 @@ detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per 
 
 # ---------- Supervision + ByteTrack -----------
 tracker = sv.ByteTrack()  # Multi-object tracking
-box_annotator = sv.BoxAnnotator(thickness=2)  # ✅ Compatible with new supervision
+box_annotator = sv.BoxAnnotator(thickness=2)  # Only supports thickness now
 
 # Dictionary to keep consistent color per object ID
 id_colors = {}
@@ -85,7 +84,7 @@ def run_realtime_detection(video_url):
         # Update tracker with current frame detections
         tracked_detections = tracker.update_with_detections(detections)
 
-        # Annotate frame with bounding boxes + IDs
+        # Build labels and colors
         labels = []
         colors = []
         for xyxy, class_id, tracker_id in zip(
@@ -97,12 +96,37 @@ def run_realtime_detection(video_url):
             labels.append(f"ID {tracker_id} {obj_name}")
             colors.append(get_color_for_id(int(tracker_id)))
 
+        # Draw bounding boxes
         annotated_frame = box_annotator.annotate(
             scene=frame.copy(),
             detections=tracked_detections,
-            labels=labels,
             color=colors
         )
+
+        # Draw labels manually
+        for xyxy, label, color in zip(tracked_detections.xyxy, labels, colors):
+            x1, y1, x2, y2 = map(int, xyxy)
+            cv2.putText(
+                annotated_frame,
+                label,
+                (x1, y1 - 5),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (255, 255, 255),
+                2,
+                lineType=cv2.LINE_AA
+            )
+            # Optional: outline for better visibility
+            cv2.putText(
+                annotated_frame,
+                label,
+                (x1, y1 - 5),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                color,
+                1,
+                lineType=cv2.LINE_AA
+            )
 
         # Encode and publish frame over MQTT
         _, buffer = cv2.imencode('.jpg', annotated_frame)
