@@ -33,7 +33,7 @@ detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per 
 
 # ---------- Supervision + ByteTrack -----------
 tracker = sv.ByteTrack()  # Multi-object tracking
-box_annotator = sv.BoxAnnotator(thickness=2)
+box_annotator = sv.BoxAnnotator(thickness=2)  # ✅ Fixed for new supervision API
 
 # Dictionary to keep consistent color per object ID
 id_colors = {}
