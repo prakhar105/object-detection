@@ -2,12 +2,12 @@ import cv2
 import base64
 import time
 import argparse
+import random
 import paho.mqtt.client as mqtt
 from ultralytics import YOLO
 from yt_dlp import YoutubeDL
 from prometheus_client import start_http_server, Gauge
 
-# Supervision (for better annotation and ByteTrack)
 import supervision as sv
 
 # ---------- Argument parser ------------------
@@ -33,11 +33,19 @@ detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per 
 
 # ---------- Supervision + ByteTrack -----------
 tracker = sv.ByteTrack()  # Multi-object tracking
-box_annotator = sv.BoxAnnotator(
-    thickness=2,
-    text_thickness=2,
-    text_scale=0.6
-)
+box_annotator = sv.BoxAnnotator(thickness=2)
+
+# Dictionary to keep consistent color per object ID
+id_colors = {}
+
+def get_color_for_id(obj_id):
+    if obj_id not in id_colors:
+        id_colors[obj_id] = (
+            random.randint(0, 255),
+            random.randint(0, 255),
+            random.randint(0, 255)
+        )
+    return id_colors[obj_id]
 
 
 def run_realtime_detection(video_url):
@@ -78,18 +86,26 @@ def run_realtime_detection(video_url):
         tracked_detections = tracker.update_with_detections(detections)
 
         # Annotate frame with bounding boxes + IDs
-        labels = [
-            f"ID {tracker_id} {model.names[class_id]}"
-            for _, _, class_id, _, tracker_id in tracked_detections
-        ]
-        annotated_frame = box_annotator.annotate(scene=frame.copy(), detections=tracked_detections, labels=labels)
+        labels = []
+        colors = []
+        for xyxy, _, class_id, _, tracker_id in tracked_detections:
+            obj_name = model.names[int(class_id)]
+            labels.append(f"ID {tracker_id} {obj_name}")
+            colors.append(get_color_for_id(tracker_id))
+
+        annotated_frame = box_annotator.annotate(
+            scene=frame.copy(),
+            detections=tracked_detections,
+            labels=labels,
+            color=colors
+        )
 
         # Encode and publish frame over MQTT
         _, buffer = cv2.imencode('.jpg', annotated_frame)
         jpg_as_text = base64.b64encode(buffer).decode('utf-8')
         client.publish(MQTT_TOPIC, jpg_as_text)
 
-        # Display locally for debugging (optional)
+        # Optional: local preview
         cv2.imshow("YOLO Real-Time Tracking", annotated_frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
