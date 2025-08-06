@@ -119,10 +119,10 @@ def run_realtime_detection(video_url):
         client.publish(MQTT_TOPIC, jpg_as_text)
 
         # Optional: local preview
-        cv2.imshow("YOLO Real-Time Tracking", annotated_frame)
+        #cv2.imshow("YOLO Real-Time Tracking", annotated_frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
 
         time.sleep(0.03)  # ~30 FPS cap
 
