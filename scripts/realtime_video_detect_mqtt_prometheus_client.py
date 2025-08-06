@@ -33,7 +33,7 @@ detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per 
 
 # ---------- Supervision + ByteTrack -----------
 tracker = sv.ByteTrack()  # Multi-object tracking
-box_annotator = sv.BoxAnnotator(thickness=2)  # ✅ Fixed for new supervision API
+box_annotator = sv.BoxAnnotator(thickness=2)  # ✅ Compatible with new supervision
 
 # Dictionary to keep consistent color per object ID
 id_colors = {}
@@ -88,10 +88,14 @@ def run_realtime_detection(video_url):
         # Annotate frame with bounding boxes + IDs
         labels = []
         colors = []
-        for xyxy, _, class_id, _, tracker_id in tracked_detections:
+        for xyxy, class_id, tracker_id in zip(
+            tracked_detections.xyxy,
+            tracked_detections.class_id,
+            tracked_detections.tracker_id
+        ):
             obj_name = model.names[int(class_id)]
             labels.append(f"ID {tracker_id} {obj_name}")
-            colors.append(get_color_for_id(tracker_id))
+            colors.append(get_color_for_id(int(tracker_id)))
 
         annotated_frame = box_annotator.annotate(
             scene=frame.copy(),
