@@ -30,6 +30,7 @@ fps_gauge = Gauge('yolo_fps', 'Frames per second')
 inference_time_gauge = Gauge('yolo_inference_time_ms', 'Inference time per frame in ms')
 detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per frame')
 device_status = Gauge('yolo_device_active', 'Device heartbeat (1=active)')
+device_status.set(0)
 
 # ---------- Supervision + ByteTrack -----------
 tracker = sv.ByteTrack()
@@ -64,7 +65,7 @@ def run_realtime_detection(video_url):
             device_status.set(0)  # Device not reading frames
             break
         device_status.set(1)
-        
+
         start_infer = time.time()
         results = model(frame, verbose=False)
         end_infer = time.time()

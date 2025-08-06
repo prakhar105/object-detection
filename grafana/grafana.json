@@ -65,6 +65,29 @@
       "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
     },
     {
+      "type": "stat",
+      "title": "Device Status",
+      "targets": [
+        { "expr": "yolo_device_active", "legendFormat": "Active", "refId": "G" }
+      ],
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red", "value": null },
+            { "color": "green", "value": 1 }
+          ]},
+          "mappings": [
+            { "type": 1, "options": { "0": { "text": "Inactive" }, "1": { "text": "Active" } } }
+          ],
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+    },
+    {
       "type": "timeseries",
       "title": "YOLO FPS",
       "targets": [
@@ -102,7 +125,7 @@
     }
   ],
   "schemaVersion": 36,
-  "title": "YOLO Object Detection Metrics with Stats",
+  "title": "YOLO Object Detection Metrics with Stats and Device Status",
   "version": 1,
   "refresh": "5s",
   "time": { "from": "now-5m", "to": "now" },
