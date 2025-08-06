@@ -79,7 +79,7 @@ def run_realtime_detection(video_url):
     client.disconnect()
 
 if __name__ == "__main__":
-    youtube_url = "https://www.youtube.com/watch?v=EXAMPLE"
+    youtube_url = "https://www.youtube.com/watch?v=u4UZ4UvZXrg"
 
     # Extract best video URL
     ydl_opts = {'format': 'best'}
