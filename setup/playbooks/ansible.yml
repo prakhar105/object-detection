@@ -5,7 +5,7 @@
   gather_facts: no
 
   vars:
-    do_reboot: true
+    do_reboot: false
 
   tasks:
     - name: Reboot the machine (if user says yes)
@@ -77,6 +77,13 @@
 
     - name: Sync dependencies with uv pip sync
       command: uv pip sync requirements.txt
+      args:
+        chdir: /home/alex/yolo
+      environment:
+        UV_VENV_PATH: /home/alex/yolo/.venv
+
+    - name: Install yt-dlp using uv
+      command: uv pip install yt-dlp supervision
       args:
         chdir: /home/alex/yolo
       environment:
