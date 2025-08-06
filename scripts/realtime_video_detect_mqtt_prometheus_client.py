@@ -25,14 +25,14 @@ client = mqtt.Client()
 client.connect(MQTT_BROKER, MQTT_PORT, 60)
 
 # 🔍 Prometheus metrics
-start_http_server(args.metrics_port)  # Prometheus scrapes here
+start_http_server(args.metrics_port)
 fps_gauge = Gauge('yolo_fps', 'Frames per second')
 inference_time_gauge = Gauge('yolo_inference_time_ms', 'Inference time per frame in ms')
 detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per frame')
 
 # ---------- Supervision + ByteTrack -----------
-tracker = sv.ByteTrack()  # Multi-object tracking
-box_annotator = sv.BoxAnnotator(thickness=2)  # Only supports thickness now
+tracker = sv.ByteTrack()
+box_annotator = sv.BoxAnnotator(thickness=2)  # Default annotation only
 
 # Dictionary to keep consistent color per object ID
 id_colors = {}
@@ -84,28 +84,24 @@ def run_realtime_detection(video_url):
         # Update tracker with current frame detections
         tracked_detections = tracker.update_with_detections(detections)
 
-        # Build labels and colors
-        labels = []
-        colors = []
+        # Step 1: Draw default boxes with supervision
+        annotated_frame = box_annotator.annotate(
+            scene=frame.copy(),
+            detections=tracked_detections
+        )
+
+        # Step 2: Draw custom colored boxes and labels manually
         for xyxy, class_id, tracker_id in zip(
             tracked_detections.xyxy,
             tracked_detections.class_id,
             tracked_detections.tracker_id
         ):
             obj_name = model.names[int(class_id)]
-            labels.append(f"ID {tracker_id} {obj_name}")
-            colors.append(get_color_for_id(int(tracker_id)))
+            label = f"ID {tracker_id} {obj_name}"
+            color = get_color_for_id(int(tracker_id))
 
-        # Draw bounding boxes
-        annotated_frame = box_annotator.annotate(
-            scene=frame.copy(),
-            detections=tracked_detections,
-            color=colors
-        )
-
-        # Draw labels manually
-        for xyxy, label, color in zip(tracked_detections.xyxy, labels, colors):
             x1, y1, x2, y2 = map(int, xyxy)
+            cv2.rectangle(annotated_frame, (x1, y1), (x2, y2), color, 2)
             cv2.putText(
                 annotated_frame,
                 label,
@@ -114,17 +110,6 @@ def run_realtime_detection(video_url):
                 0.6,
                 (255, 255, 255),
                 2,
-                lineType=cv2.LINE_AA
-            )
-            # Optional: outline for better visibility
-            cv2.putText(
-                annotated_frame,
-                label,
-                (x1, y1 - 5),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.6,
-                color,
-                1,
                 lineType=cv2.LINE_AA
             )
 
