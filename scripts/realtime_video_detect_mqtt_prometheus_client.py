@@ -4,6 +4,8 @@ import paho.mqtt.client as mqtt
 from ultralytics import YOLO
 import time
 import argparse
+from yt_dlp import YoutubeDL
+
 
 # 🔍 Prometheus client
 from prometheus_client import start_http_server, Gauge
@@ -29,9 +31,10 @@ fps_gauge = Gauge('yolo_fps', 'Frames per second')
 inference_time_gauge = Gauge('yolo_inference_time_ms', 'Inference time per frame in ms')
 detection_count_gauge = Gauge('yolo_detection_count', 'Number of detections per frame')
 
-def run_realtime_detection():
+
+def run_realtime_detection(video_url):
     model = YOLO("models/yolo11n.pt")
-    cap = cv2.VideoCapture(0)  # Use webcam
+    cap = cv2.VideoCapture(video_url)  # Use webcam
 
     if not cap.isOpened():
         print("Error: Webcam not accessible")
@@ -76,4 +79,13 @@ def run_realtime_detection():
     client.disconnect()
 
 if __name__ == "__main__":
-    run_realtime_detection()
+    youtube_url = "https://www.youtube.com/watch?v=EXAMPLE"
+
+    # Extract best video URL
+    ydl_opts = {'format': 'best'}
+    with YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(youtube_url, download=False)
+        video_url = info['url']
+
+    print("Direct stream URL:", video_url)
+    run_realtime_detection(video_url)

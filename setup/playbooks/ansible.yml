@@ -83,7 +83,7 @@
         UV_VENV_PATH: /home/alex/yolo/.venv
 
     - name: Run YOLO script
-      command: /home/alex/yolo/.venv/bin/python scripts/realtime_video_detect_mqtt.py --ip 
+      command: /home/alex/yolo/.venv/bin/python scripts/realtime_video_detect_mqtt_prometheus_client.py --ip 
       args:
         chdir: /home/alex/yolo
 

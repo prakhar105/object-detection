@@ -1,0 +1,110 @@
+{
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Current YOLO FPS",
+      "targets": [
+        { "expr": "yolo_fps", "legendFormat": "FPS", "refId": "A" }
+      ],
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red", "value": null },
+            { "color": "orange", "value": 10 },
+            { "color": "green", "value": 20 }
+          ]},
+          "unit": "fps"
+        },
+        "overrides": []
+      },
+      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+    },
+    {
+      "type": "stat",
+      "title": "Current Detection Count",
+      "targets": [
+        { "expr": "yolo_detection_count", "legendFormat": "Detections", "refId": "B" }
+      ],
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "green", "value": null },
+            { "color": "orange", "value": 5 },
+            { "color": "red", "value": 10 }
+          ]},
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+    },
+    {
+      "type": "stat",
+      "title": "Current Inference Time (ms)",
+      "targets": [
+        { "expr": "yolo_inference_time_ms", "legendFormat": "Inference Time", "refId": "C" }
+      ],
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "green", "value": null },
+            { "color": "orange", "value": 50 },
+            { "color": "red", "value": 100 }
+          ]},
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+    },
+    {
+      "type": "timeseries",
+      "title": "YOLO FPS",
+      "targets": [
+        { "expr": "yolo_fps", "legendFormat": "FPS", "refId": "D" }
+      ],
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "unit": "fps" },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "YOLO Inference Time (ms)",
+      "targets": [
+        { "expr": "yolo_inference_time_ms", "legendFormat": "Inference Time", "refId": "E" }
+      ],
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "unit": "ms" },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "YOLO Detection Count",
+      "targets": [
+        { "expr": "yolo_detection_count", "legendFormat": "Detections", "refId": "F" }
+      ],
+      "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "unit": "none" },
+        "overrides": []
+      }
+    }
+  ],
+  "schemaVersion": 36,
+  "title": "YOLO Object Detection Metrics with Stats",
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-5m", "to": "now" },
+  "timepicker": { "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"] }
+}
