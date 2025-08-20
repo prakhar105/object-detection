@@ -1,5 +1,5 @@
 # YOLO Video Object Detection
-
+![ ](https://github.com/prakhar105/object-detection/blob/main/data/sample.gif)
 This project demonstrates object detection using [Ultralytics](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
 
 ---
@@ -238,6 +238,7 @@ Detection Count → Graph + Gauge
 
 Device Status → Active/Inactive
 ```
+![ ](https://github.com/prakhar105/object-detection/blob/main/data/Screenshot%202025-08-20%20155403.png)
 ---
 ## Notes
 
