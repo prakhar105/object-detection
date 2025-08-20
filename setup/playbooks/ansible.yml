@@ -5,7 +5,7 @@
   gather_facts: no
 
   vars:
-    do_reboot: false
+    do_reboot: true
 
   tasks:
     - name: Reboot the machine (if user says yes)

@@ -20,7 +20,9 @@
         },
         "overrides": []
       },
-      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+      "options": {
+        "reduceOptions": { "calcs": ["last"], "fields": "", "values": false }
+      }
     },
     {
       "type": "stat",
@@ -41,7 +43,9 @@
         },
         "overrides": []
       },
-      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+      "options": {
+        "reduceOptions": { "calcs": ["last"], "fields": "", "values": false }
+      }
     },
     {
       "type": "stat",
@@ -62,36 +66,59 @@
         },
         "overrides": []
       },
-      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+      "options": {
+        "reduceOptions": { "calcs": ["last"], "fields": "", "values": false }
+      }
     },
     {
       "type": "stat",
       "title": "Device Status",
       "targets": [
-        { "expr": "yolo_device_active", "legendFormat": "Active", "refId": "G" }
+        { "expr": "yolo_device_active", "legendFormat": "Status", "refId": "D" }
       ],
       "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
-          "thresholds": { "mode": "absolute", "steps": [
-            { "color": "red", "value": null },
-            { "color": "green", "value": 1 }
-          ]},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 1 }
+            ]
+          },
           "mappings": [
-            { "type": 1, "options": { "0": { "text": "Inactive" }, "1": { "text": "Active" } } }
+            {
+              "type": 1,
+              "options": {
+                "0": { "text": "Inactive" }
+              }
+            },
+            {
+              "type": 2,
+              "options": {
+                "from": 0.0000001,
+                "to": 999999,
+                "result": { "text": "Active" }
+              }
+            }
           ],
-          "unit": "none"
+          "unit": "none",
+          "decimals": 0
         },
         "overrides": []
       },
-      "options": { "reduceOptions": { "calcs": ["last"], "fields": "", "values": false } }
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "orientation": "auto",
+        "textMode": "value"
+      }
     },
     {
       "type": "timeseries",
       "title": "YOLO FPS",
       "targets": [
-        { "expr": "yolo_fps", "legendFormat": "FPS", "refId": "D" }
+        { "expr": "yolo_fps", "legendFormat": "FPS", "refId": "E" }
       ],
       "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
       "fieldConfig": {
@@ -103,7 +130,7 @@
       "type": "timeseries",
       "title": "YOLO Inference Time (ms)",
       "targets": [
-        { "expr": "yolo_inference_time_ms", "legendFormat": "Inference Time", "refId": "E" }
+        { "expr": "yolo_inference_time_ms", "legendFormat": "Inference Time", "refId": "F" }
       ],
       "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
       "fieldConfig": {
@@ -115,7 +142,7 @@
       "type": "timeseries",
       "title": "YOLO Detection Count",
       "targets": [
-        { "expr": "yolo_detection_count", "legendFormat": "Detections", "refId": "F" }
+        { "expr": "yolo_detection_count", "legendFormat": "Detections", "refId": "G" }
       ],
       "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 },
       "fieldConfig": {
@@ -125,7 +152,7 @@
     }
   ],
   "schemaVersion": 36,
-  "title": "YOLO Object Detection Metrics with Stats and Device Status",
+  "title": "YOLO Metrics + Device Status (Text Only)",
   "version": 1,
   "refresh": "5s",
   "time": { "from": "now-5m", "to": "now" },

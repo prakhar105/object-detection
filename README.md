@@ -5,17 +5,18 @@ This project demonstrates object detection using [Ultralytics](https://docs.ultr
 ---
 ## Architecture
 ```
-+------------------------+       +------------------------+
-|  Jetson Edge Device    |       |   Root Control Node    |
-|  (Ansible Managed)     |       |                        |
-|                        |       |                        |
-|  - YOLOv8 Inference    |       |  - Receives MQTT data  |
-|  - MQTT Publisher      +------->  - Visualizes results  |
-|  - Auto-start via svc  |       |                        |
-+------------------------+       +------------------------+
-        ^                                ^
-        |                                |
-     [Tailscale VPN: Secure Mesh Networking]
++---------------------------+        +---------------------------+
+|   Jetson Edge Device      |        |    Root Control Node      |
+|  (Ansible Managed)        |        |                           |
+|                           |        |                           |
+| - YOLOv8 Inference        |        | - MQTT Subscriber         |
+| - MQTT Publisher          +------->| - Grafana + Prometheus    |
+| - Prometheus Exporter     |        | - Real-time Metrics       |
+| - Auto-start via svc      |        | - Visual Dashboards       |
++---------------------------+        +---------------------------+
+        ^                                      ^
+        |                                      |
+   [Tailscale VPN: Secure Mesh Networking]
 ```
 ---
 
@@ -40,7 +41,8 @@ object-detection-ci-cd-tdd-dvc/
 │
 ├── outputs/
 │   └── annotated_output.mp4     # Output video after detection
-│
+├── grafana/
+│   └── grafana.json             # Grafana dashboard
 ├── scripts/
 │   └── video_detect.py          # YOLOv8 video detection script
 │
@@ -225,6 +227,16 @@ This Ansible script will configure the device, download updated git repository, 
 
 ```
 uv run .\scripts\mqtt_subscriber.py --ip <host_device_tailscale_IP>
+```
+## Part E: Monitoring in Grafana
+```
+YOLO FPS → Gauge
+
+Inference Time → Gauge
+
+Detection Count → Graph + Gauge
+
+Device Status → Active/Inactive
 ```
 ---
 ## Notes
