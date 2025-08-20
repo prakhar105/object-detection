@@ -1,7 +1,8 @@
 # YOLO Video Object Detection
 ![ ](https://github.com/prakhar105/object-detection/blob/main/data/sample.gif)
-This project demonstrates object detection using [Ultralytics](https://docs.ultralytics.com/) on video files. It also includes a robust CI/CD pipeline using GitHub Actions, test-driven development (TDD), and optional data versioning using DVC.
-
+This project demonstrates real-time object detection using Ultralytics YOLO on video files and streams.
+It includes a robust CI/CD pipeline using GitHub Actions, Test-Driven Development (Pytest), DVC for optional data versioning, and Ansible + Tailscale for lightweight Jetson deployment.
+Now enhanced with Prometheus metrics and Grafana dashboards for monitoring inference performance and device health.
 ---
 ## Architecture
 ```
